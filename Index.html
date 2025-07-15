@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mexa-se pelo Coração</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .heart-icon {
+            color: #e74c3c;
+            animation: heartbeat 1.2s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .intro-text {
+            font-size: 1.8rem;
+            margin: 40px 0;
+            text-align: center;
+            color: #2c3e50;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 40px auto;
+        }
+
+        .start-button {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 30px auto;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .start-button:hover {
+            background: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .challenge-screen {
+            background: #FFA07A;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 900px;
+            margin: 20px auto;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .challenge-title {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            text-align: center;
+        }
+
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .card {
+            width: 150px;
+            height: 220px;
+            position: relative;
+            cursor: pointer;
+            perspective: 1000px;
+        }
+
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-back {
+            background: #8B0000;
+            background-image: 
+                linear-gradient(135deg, #8B0000 25%, #A52A2A 25%, #A52A2A 50%, 
+                #8B0000 50%, #8B0000 75%, #A52A2A 75%, #A52A2A 100%);
+            background-size: 40px 40px;
+        }
+
+        .card-back::before {
+            content: "♥";
+            font-size: 4rem;
+            color: white;
+            opacity: 0.8;
+        }
+
+        .card-front {
+            background: white;
+            transform: rotateY(180deg);
+            padding: 20px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+            flex-direction: column;
+        }
+
+        .card-number {
+            font-size: 2.5rem;
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+
+        .message {
+            font-size: 1rem;
+        }
+
+        .back-button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 30px;
+            display: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-button:hover {
+            background: #2980b9;
+            transform: translateY(-3px);
+        }
+
+        .info-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 50px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            color: #e74c3c;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .benefits-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .benefit-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .benefit-card h3 {
+            color: #e74c3c;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .benefit-icon {
+            font-size: 1.5rem;
+        }
+
+        .tips-container {
+            background: #e8f4fc;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .tips-container h3 {
+            color: #2980b9;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+
+        .tip-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            list-style-type: none;
+        }
+
+        .tip-list li {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .tip-number {
+            background: #3498db;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .activities-container {
+            margin-top: 40px;
+        }
+
+        .activity-category {
+            margin-bottom: 30px;
+        }
+
+        .activity-category h4 {
+            background: #e74c3c;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .activity-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .activity-item {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 8px;
+            flex-grow: 1;
+            text-align: center;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+        }
+
+        .activity-item:hover {
+            background: #e8f4fc;
+            transform: translateY(-3px);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: white;
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .intro-text {
+                font-size: 1.4rem;
+                padding: 20px;
+            }
+            
+            .start-button {
+                font-size: 1.2rem;
+                padding: 15px 40px;
+            }
+            
+            .challenge-screen {
+                padding: 25px 15px;
+            }
+            
+            .cards-container {
+                gap: 15px;
+            }
+            
+            .card {
+                width: 130px;
+                height: 190px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cards-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .card {
+                width: 160px;
+                height: 230px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-heart heart-icon"></i> Mexa-se pelo Coração <i class="fas fa-heart heart-icon"></i></h1>
+        </header>
+        
+        <main>
+            <div class="intro-text">
+                <p>Para iniciar um hábito é necessário 21 dias! Para te ajudar nesse processo criei esse desafio para você.</p>
+            </div>
+            
+            <button class="start-button" id="startChallenge">
+                <i class="fas fa-heart"></i> Começar o desafio
+            </button>
+            
+            <div class="challenge-screen" id="challengeScreen">
+                <h2 class="challenge-title">Escolha 3 cartas para revelar sua mensagem motivacional!</h2>
+                
+                <div class="cards-container" id="cardsContainer">
+                    <!-- Cartas serão geradas pelo JavaScript -->
+                </div>
+                
+                <button class="back-button" id="backButton">
+                    <i class="fas fa-home"></i> Volte ao início
+                </button>
+            </div>
+            
+            <div class="info-section">
+                <h2 class="section-title"><i class="fas fa-heartbeat"></i> Por que o exercício é bom para o coração?</h2>
+                
+                <div class="benefits-container">
+                    <div class="benefit-card">
+                        <h3><i class="fas fa-tachometer-alt benefit-icon"></i> Reduz a pressão arterial</h3>
+                        <p>Atividades físicas regulares ajudam a manter a pressão arterial em níveis saudáveis, reduzindo o esforço do coração.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <h3><i class="fas fa-tint benefit-icon"></i> Melhora a circulação do sangue</h3>
+                        <p>O exercício fortalece o coração, permitindo que ele bombeie sangue de forma mais eficiente por todo o corpo.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <h3><i class="fas fa-chart-line benefit-icon"></i> Controla o colesterol</h3>
+                        <p>A prática regular de exercícios aumenta o HDL (colesterol bom) e reduz o LDL (colesterol ruim).</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <h3><i class="fas fa-syringe benefit-icon"></i> Ajuda no controle da glicemia</h3>
+                        <p>Atividades físicas melhoram a sensibilidade à insulina, ajudando no controle do diabetes.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <h3><i class="fas fa-heart benefit-icon"></i> Reduz o risco de infarto e AVC</h3>
+                        <p>Exercícios regulares fortalecem o sistema cardiovascular e reduzem o risco de doenças cardíacas.</p>
+                    </div>
+                    
+                    <div class="benefit-card">
+                        <h3><i class="far fa-clock benefit-icon"></i> Apenas 30 minutos por dia</h3>
+                        <p>Você não precisa de horas de exercício - apenas 30 minutos diários já fazem uma grande diferença!</p>
+                    </div>
+                </div>
+                
+                <div class="tips-container">
+                    <h3><i class="fas fa-lightbulb"></i> Dicas para começar com segurança</h3>
+                    <ul class="tip-list">
+                        <li>
+                            <div class="tip-number">1</div>
+                            <div>Comece devagar: 10 a 15 minutos por dia</div>
+                        </li>
+                        <li>
+                            <div class="tip-number">2</div>
+                            <div>Use roupas leves e confortáveis</div>
+                        </li>
+                        <li>
+                            <div class="tip-number">3</div>
+                            <div>Beba água antes e depois</div>
+                        </li>
+                        <li>
+                            <div class="tip-number">4</div>
+                            <div>Prefira locais seguros e horários frescos</div>
+                        </li>
+                        <li>
+                            <div class="tip-number">5</div>
+                            <div>Ouça seu corpo: respeite seus limites</div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="activities-container">
+                    <h3 class="section-title"><i class="fas fa-running"></i> Qual atividade fazer?</h3>
+                    <p style="text-align: center; margin-bottom: 25px; font-size: 1.2rem;"><strong>Todos podem (e devem) se mexer!</strong></p>
+                    
+                    <div class="activity-category">
+                        <h4>Para idosos:</h4>
+                        <div class="activity-list">
+                            <div class="activity-item">Caminhada leve</div>
+                            <div class="activity-item">Alongamento</div>
+                            <div class="activity-item">Exercícios com apoio</div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-category">
+                        <h4>Para adultos:</h4>
+                        <div class="activity-list">
+                            <div class="activity-item">Corrida leve</div>
+                            <div class="activity-item">Dança</div>
+                            <div class="activity-item">Bicicleta</div>
+                            <div class="activity-item">Natação</div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-category">
+                        <h4>Alternativas criativas:</h4>
+                        <div class="activity-list">
+                            <div class="activity-item">Subir escadas</div>
+                            <div class="activity-item">Brincar com crianças</div>
+                            <div class="activity-item">Brincar com pets</div>
+                            <div class="activity-item">Jardinagem</div>
+                            <div class="activity-item">Faxina ativa</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <p>Cuidar do seu coração é um ato de amor próprio</p>
+            <p>Procure orientação médica antes de iniciar qualquer atividade física</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const startButton = document.getElementById('startChallenge');
+            const challengeScreen = document.getElementById('challengeScreen');
+            const cardsContainer = document.getElementById('cardsContainer');
+            const backButton = document.getElementById('backButton');
+            
+            // Mensagens para as cartas
+            const messages = [
+                "Dia 1: Comece com uma caminhada de 15 minutos!",
+                "Dia 2: Beba mais água hoje - seu coração agradece!",
+                "Dia 3: Suba escadas em vez de usar o elevador.",
+                "Dia 4: Alongue-se por 10 minutos ao acordar.",
+                "Dia 5: Dance suas músicas favoritas por 20 minutos!",
+                "Dia 6: Faça exercícios de respiração profunda.",
+                "Dia 7: Desafie-se com 20 minutos de bicicleta.",
+                "Dia 8: Convide alguém para se exercitar com você!",
+                "Dia 9: Faça jardinagem ou atividades ao ar livre."
+            ];
+            
+            // Função para sortear 3 cartas únicas
+            function getRandomCards() {
+                const shuffled = [...messages].sort(() => 0.5 - Math.random());
+                return shuffled.slice(0, 3);
+            }
+            
+            // Criar as cartas
+            function createCards() {
+                cardsContainer.innerHTML = '';
+                const selectedCards = getRandomCards();
+                
+                selectedCards.forEach((message, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.innerHTML = `
+                        <div class="card-inner">
+                            <div class="card-back"></div>
+                            <div class="card-front">
+                                <div class="card-number">${index + 1}</div>
+                                <div class="message">${message}</div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    card.addEventListener('click', function() {
+                        if (!card.classList.contains('flipped')) {
+                            card.classList.add('flipped');
+                            backButton.style.display = 'block';
+                        }
+                    });
+                    
+                    cardsContainer.appendChild(card);
+                });
+            }
+            
+            // Iniciar o desafio
+            startButton.addEventListener('click', function() {
+                challengeScreen.style.display = 'flex';
+                createCards();
+                backButton.style.display = 'none';
+                
+                // Scroll para o desafio
+                challengeScreen.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            // Voltar ao início
+            backButton.addEventListener('click', function() {
+                challengeScreen.style.display = 'none';
+                
+                // Resetar as cartas
+                const cards = document.querySelectorAll('.card');
+                cards.forEach(card => {
+                    card.classList.remove('flipped');
+                });
+                
+                // Scroll para o topo
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
